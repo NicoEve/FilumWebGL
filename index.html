@@ -80,15 +80,62 @@
     light.intensity = 0.7;
 
     // Our built-in 'ground' shape.
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
+    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 10, height: 6}, scene);
+
     const groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
     groundMaterial.diffuseColor = BABYLON.Color3.Red();
+
     let groundTexture = new BABYLON.Texture(Assets.textures.checkerboard_basecolor_png.path, scene);
     groundMaterial.diffuseTexture = groundTexture;
     ground.material = groundMaterial;
+
     BABYLON.ImportMeshAsync(Assets.meshes.Yeti.rootUrl + Assets.meshes.Yeti.filename, scene, 
     { meshNames: "" }).then(function (result) {result.meshes[0].scaling = 
     new BABYLON.Vector3(0.1, 0.1, 0.1);});
+
+    var mat1 = new BABYLON.StandardMaterial("mat1", scene);
+	mat1.diffuseTexture = new BABYLON.Texture("https://st.depositphotos.com/1017411/1565/i/950/depositphotos_15658835-stock-photo-texture-surface-of-the-moon.jpg", scene);
+	mat1.bumpTexture = new BABYLON.Texture("https://1.bp.blogspot.com/-AOUpwROajsQ/UWmMShGI53I/AAAAAAAADMM/GdNTDycmJl8/s1600/Moon_floor_jaqx_tilable_1024_NRM.png", scene);
+
+    BABYLON.SceneLoader.ImportMeshAsync("", "https://nicoeve.github.io/FilumWebGL/", "luna.glb").then((result) => {
+    	result.meshes[1].material = mat1;
+        result.meshes[1].position.x = 0;
+        result.meshes[1].position.y = 10;
+        result.meshes[1].position.z = 4;
+        result.meshes[1].rotation.x = BABYLON.Tools.ToRadians(45);;
+        
+    });
+
+    var mat2 = new BABYLON.StandardMaterial("mat2", scene);
+	mat2.diffuseTexture = new BABYLON.Texture("https://images.freeimages.com/images/premium/previews/5263/52631438-rough-brown-palm-tree-wood-bark-natural-texture-background.jpg", scene);
+	mat2.bumpTexture = new BABYLON.Texture("https://image.shutterstock.com/image-illustration/texture-palm-tree-bark-normal-260nw-1163863276.jpg", scene);
+
+    BABYLON.SceneLoader.ImportMeshAsync("", "https://nicoeve.github.io/FilumWebGL/", "palma.glb").then((result) => {
+        let root = result.meshes[0];
+    	result.meshes.forEach(mesh => {
+            if(mesh.material) {
+                mesh.material = mat2;
+            }
+        });
+        root.position = new BABYLON.Vector3(-2, 1.5, 0);
+        root.scaling = new BABYLON.Vector3(0.05, 0.05, 0.05);
+        result.meshes[2].rotation.x = BABYLON.Tools.ToRadians(45);;
+        
+    });
+
+    BABYLON.SceneLoader.ImportMeshAsync("", "https://nicoeve.github.io/FilumWebGL/", "palma.glb").then((result) => {
+        let root = result.meshes[0];
+    	result.meshes.forEach(mesh => {
+            if(mesh.material) {
+                mesh.material = mat2;
+            }
+        });
+        root.position = new BABYLON.Vector3(5, 1.5, 0);
+        root.scaling = new BABYLON.Vector3(0.05, 0.05, 0.05);
+        result.meshes[3].rotation.x = BABYLON.Tools.ToRadians(45);;
+        
+    });
+    
     return scene;
 };
                 window.initFunction = async function() {
@@ -123,3 +170,4 @@
         </script>
     </body>
 </html>
+
